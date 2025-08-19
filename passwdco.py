@@ -43,11 +43,67 @@ try:
             else:
                 continue       
         os.remove("tmp.txt")   
+    
+    def modify():
+        with open("password.txt","r") as f:
+            nested_dict=json.load(f)
+        with open("temp.txt","w") as g:
+            json.dump(nested_dict, g, indent=4)  
+        with open("temp.txt","r") as h:
+            x=json.load(h)   
+        while True:
+            a=input("Enter name of  web or app:('exit' to quit)):").strip().lower()
+            if a=='exit':
+                break
+
+            if a in  x:
+                b=input("Remove or modify(m or d): ").strip().lower()
+                if b!='m' and b!= 'd':
+                    break
+                elif b=="d":
+                    del x[a]
+                elif b=='m':
+                    while True:
+                        z=input("Enter your credential name :('exit' to back))").strip().lower()
+                        if z=='exit':
+                            break
+                        if z in x[a]:
+                             o=input("Remove or modify:m or d ").strip().lower()
+                             if o!='m' and o!='d':
+                                 break
+                             elif o=='d':
+                                 del x[a][z]
+                             elif o=='m':
+                                 n=input("Enter your deta:-")  
+                                 x[a][z]=n
+        with open ("temp.txt","w") as l:
+            json.dump(x,l,indent=4) 
+        print(x)                           
+        m=input("Can you want to save(y or n):").strip().lower()
+        if m=='y':
+            with open("temp.txt","r") as c:
+                rd=json.load(c)
+            with open("password.txt","w") as g:
+                json.dump(rd, g, indent=4) 
+        elif m=='n':
+            print("Your password not save") 
+
+        os.remove("temp.txt")                             
+
+                                 
 
 
+
+
+
+
+
+
+    
  
 
-
+   
+    
     
     
     def coped():
@@ -70,12 +126,15 @@ try:
 
             elif a not in nested_dict:
                 print(f"{a}cannot find ")
+    
     while True:
-        i=input("C forcopy and U for update:").strip().lower()  
+        i=input("C forcopy and U for update and M for modify existing data:").strip().lower()  
         if i=='c':
             coped()
         elif i=='u':
             update()   
+        elif i=='m':
+            modify()    
         else:
             break
                  
