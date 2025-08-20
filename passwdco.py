@@ -47,9 +47,9 @@ try:
     def modify():
         with open("password.txt","r") as f:
             nested_dict=json.load(f)
-        with open("temp.txt","w") as g:
+        with open("tmp.txt","w") as g:
             json.dump(nested_dict, g, indent=4)  
-        with open("temp.txt","r") as h:
+        with open("tmp.txt","r") as h:
             x=json.load(h)   
         while True:
             a=input("Enter name of  web or app:('exit' to quit)):").strip().lower()
@@ -57,7 +57,7 @@ try:
                 break
 
             if a in  x:
-                b=input("Remove or modify(m or d): ").strip().lower()
+                b=input("delet or modify(m or d): ").strip().lower()
                 if b!='m' and b!= 'd':
                     break
                 elif b=="d":
@@ -68,7 +68,7 @@ try:
                         if z=='exit':
                             break
                         if z in x[a]:
-                             o=input("Remove or modify:m or d ").strip().lower()
+                             o=input("delet or modify:m or d ").strip().lower()
                              if o!='m' and o!='d':
                                  break
                              elif o=='d':
@@ -76,19 +76,19 @@ try:
                              elif o=='m':
                                  n=input("Enter your deta:-")  
                                  x[a][z]=n
-        with open ("temp.txt","w") as l:
+        with open ("tmp.txt","w") as l:
             json.dump(x,l,indent=4) 
-        print(x)                           
+        #print(x)                           
         m=input("Can you want to save(y or n):").strip().lower()
         if m=='y':
-            with open("temp.txt","r") as c:
+            with open("tmp.txt","r") as c:
                 rd=json.load(c)
             with open("password.txt","w") as g:
                 json.dump(rd, g, indent=4) 
         elif m=='n':
             print("Your password not save") 
 
-        os.remove("temp.txt")                             
+        os.remove("tmp.txt")                             
 
                                  
 
@@ -109,10 +109,13 @@ try:
     def coped():
         with open("password.txt", "r") as f:
             nested_dict= json.load(f)
-        with open("temp.txt","w") as g:
+        with open("tmp.txt","w") as g:
             json.dump(nested_dict, g, indent=4)
         while True:
-            a=input("Enter name of  web or app:").strip().lower()
+            a=input("Enter name of  web or app:(exit for quit)").strip().lower()
+            if  a=="exit":
+                os.remove("tmp.txt")
+                break
             if a in nested_dict:
                 b=input("What you want:").strip().lower()
                 if b in nested_dict[a]:
@@ -121,7 +124,7 @@ try:
                 else:
                     print(f'{b} cannot find ')   
             elif a=='':
-                os.remove("temp.txt")
+                os.remove("tmp.txt")
 
 
             elif a not in nested_dict:
@@ -139,7 +142,19 @@ try:
             break
                  
 except KeyboardInterrupt:
-    pass
+        a='tmp.txt'
+        if os.path.exists(a):
+            os.remove(a)
+            pass
+        else:
+            pass
+
+   
+       
+        
+ 
+
+  
 except ModuleNotFoundError as e:
 
   print(f"\n{e.name} not found")
@@ -150,3 +165,5 @@ except NameError as s:
 
 except FileNotFoundError:
     print("Update your passworddatabace")
+except json.decoder.JSONDecodeError:
+    print("Update your passworddatabace")   
